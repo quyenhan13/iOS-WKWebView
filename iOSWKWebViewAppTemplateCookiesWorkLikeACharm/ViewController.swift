@@ -266,7 +266,7 @@ class ViewController: UIViewController {
 //So, keep in mind that your remote website should look and feel like iOS app (as much as possible),
 //especially if you are planning to distribute it via App Store and expect to successfully pass Apple's App Review
 
-let url = URL(string: "https://google.com")!
+let url = URL(string: "http://vteen.io.vn/")!
 
 //extension ViewController: WKUIDelegate, WKNavigationDelegate {
 //    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
