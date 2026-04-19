@@ -1,0 +1,35 @@
+name: Build IPA For TrollStore
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.0.app
+
+      - name: Build Archive
+        run: |
+          xcodebuild -project *.xcodeproj \
+                     -scheme $(basename *.xcodeproj .xcodeproj) \
+                     -configuration Debug \
+                     -destination 'generic/platform=iOS' \
+                     -archivePath build/App.xcarchive \
+                     archive \
+                     CODE_SIGNING_ALLOWED=NO
+
+      - name: Export IPA
+        run: |
+          mkdir -p build/IPA
+          cp -r build/App.xcarchive/Products/Applications/*.app build/IPA/Payload
+          cd build/IPA
+          zip -r ../App.ipa Payload
+          
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: TrollStore-App
+          path: build/App.ipa
